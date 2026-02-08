@@ -26,16 +26,18 @@ Use this priority when selecting elements:
 
 ```javascript
 // Use role for buttons
-this.loginButton = page.getByRole('button', { name: 'Login' });
+this.loginButton = page.locator('button.orangehrm-login-button');
 
 // Use placeholder for inputs
 this.usernameInput = page.getByPlaceholder('Username');
+this.passwordInput = page.getByPlaceholder('Password');
 
 // Use label for form fields
-this.emailField = page.getByLabel('Email Address');
+this.employeeNameField = page.getByLabel('Employee Name');
 
-// Use test ID for non-semantic elements
-this.errorMessage = page.getByTestId('error');
+// Use locator for specific classes when needed
+this.dashboard = page.locator('.oxd-topbar-header');
+this.errorMessage = page.locator('.oxd-alert-content');
 ```
 
 ### ❌ Bad Examples (Avoid)

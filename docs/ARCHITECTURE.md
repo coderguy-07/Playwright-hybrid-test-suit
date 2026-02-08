@@ -5,7 +5,7 @@
 ```
 playwright-js/
 ├── api/                    # API testing layer
-│   └── SauceAPI.js         # API client for backend calls
+│   └── OrangeHRMAPI.js     # OAuth2 API client for OrangeHRM
 ├── docs/                   # Documentation
 │   ├── ARCHITECTURE.md     # This file
 │   └── LOCATOR_STRATEGY.md # Locator pattern guide
@@ -13,11 +13,12 @@ playwright-js/
 │   └── test-base.js        # Custom test fixtures
 ├── pages/                  # Page Object Model
 │   ├── BasePage.js         # Base class with shared utilities
-│   └── SauceLoginPage.js   # Sauce Demo login page object
+│   ├── OrangeHRMLoginPage.js      # OrangeHRM login page
+│   └── OrangeHRMDashboardPage.js  # OrangeHRM dashboard
 ├── tests/                  # Test specifications
-│   ├── api.spec.js         # API tests
-│   ├── sauce-demo.spec.js  # UI tests
-│   └── visual.spec.js      # Visual regression tests
+│   ├── orangehrm-api.spec.js   # API tests with OAuth2
+│   ├── orangehrm-login.spec.js # UI tests
+│   └── visual.spec.js          # Visual regression tests
 ├── utils/                  # Utilities
 │   ├── custom-matchers.js  # Custom assertions
 │   └── env.js              # Environment config
@@ -41,15 +42,19 @@ All page interactions are encapsulated in Page Objects that extend `BasePage`.
 
 **Example:**
 ```javascript
-class SauceLoginPage extends BasePage {
+class OrangeHRMLoginPage extends BasePage {
   constructor(page) {
     super(page);
     this.usernameInput = page.getByPlaceholder('Username');
+    this.passwordInput = page.getByPlaceholder('Password');
+    this.loginButton = page.locator('button.orangehrm-login-button');
   }
   
   async login(username, password) {
     await this.usernameInput.fill(username);
-    // ...
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+    await this.waitForLoadState();
   }
 }
 ```
@@ -65,9 +70,10 @@ Tests receive pre-configured page objects automatically via fixtures.
 
 **Example:**
 ```javascript
-test('my test', async ({ sauceLoginPage }) => {
-  // sauceLoginPage is already initialized
-  await sauceLoginPage.navigate();
+test('my test', async ({ orangeHRMLoginPage }) => {
+  // orangeHRMLoginPage is already initialized
+  await orangeHRMLoginPage.navigate();
+  await orangeHRMLoginPage.login('Admin', 'admin123');
 });
 ```
 
@@ -115,9 +121,12 @@ Authentication state generated once, reused across tests.
 
 | Variable | Purpose | Default |
 |:---|:---|:---|
-| `SAUCE_BASE_URL` | App URL | https://www.saucedemo.com/ |
-| `SAUCE_USER` | Username | standard_user |
-| `SAUCE_PASSWORD` | Password | secret_sauce |
+| `ORANGEHRM_BASE_URL` | App URL | https://opensource-demo.orangehrmlive.com/ |
+| `ORANGEHRM_USERNAME` | Test username | Admin |
+| `ORANGEHRM_PASSWORD` | Test password | admin123 |
+| `ORANGEHRM_API_BASE` | API base URL | https://opensource-demo.orangehrmlive.com/web/index.php/api/v2 |
+| `ORANGEHRM_CLIENT_ID` | OAuth2 client ID | (optional) |
+| `ORANGEHRM_CLIENT_SECRET` | OAuth2 secret | (optional) |
 | `HEADED` | Show browser | false |
 
 ## CI/CD Integration

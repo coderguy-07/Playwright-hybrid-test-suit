@@ -1,6 +1,6 @@
-# Enterprise Playwright JS Test Suite
+# Playwright JS Test Suite
 
-An **enterprise-grade test automation framework** built with [Playwright](https://playwright.dev/) and JavaScript, featuring the Page Object Model, API testing, visual regression, and Docker support.
+An **a test automation framework** built with [Playwright](https://playwright.dev/) and JavaScript, featuring the Page Object Model, API testing, visual regression, and Docker support.
 
 ## 🚀 Features
 
