@@ -1,0 +1,32 @@
+{
+  "name": "enterprise-playwright-js-test-suite",
+  "version": "1.0.0",
+  "description": "Enterprise-grade test automation suite using Playwright and JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "HEADED=true playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:ui": "playwright test --ui",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "playwright",
+    "javascript",
+    "automation",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^0.18.0",
+    "eslint-plugin-prettier": "^5.1.3"
+  }
+}
